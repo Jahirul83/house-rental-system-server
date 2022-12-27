@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config();
-const { query } = require('express');
 
 const port = process.env.PORT || 5000;
 
@@ -16,10 +15,13 @@ app.use(express.json());
 
 
 
-const uri = "mongodb+srv://rentdb:houserental@cluster0.ivygfz8.mongodb.net/?retryWrites=true&w=majority";
+
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.il3o5bv.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
+console.log(process.env.DB_PASS)
 
 
 
@@ -27,10 +29,11 @@ async function run() {
 
     try {
         // collections
-        const servicesCollection = client.db("rentdb").collection("addrent");
+        const servicesCollection = client.db("houseRent").collection("services");
 
         app.post('/services', async (req, res) => {
             const service = req.body;
+
             const result = await servicesCollection.insertOne(service);
             res.send(result);
         });
