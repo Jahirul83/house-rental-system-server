@@ -38,6 +38,14 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/services', async (req, res) => {
+
+            const filter = {};
+            const result = await servicesCollection.find(filter).toArray();
+            res.send(result);
+
+        });
+
     }
     finally {
 
