@@ -30,12 +30,28 @@ async function run() {
     try {
         // collections
         const servicesCollection = client.db("houseRent").collection("services");
+        const reviewCollection = client.db("houseRent").collection("addreview");
 
         app.post('/services', async (req, res) => {
             const service = req.body;
             console.log(req.body)
             const result = await servicesCollection.insertOne(service);
             res.send(result);
+        });
+
+        app.post('/addreview', async (req, res) => {
+            const rev = req.body;
+            console.log(req.body)
+            const result = await reviewCollection.insertOne(rev);
+            res.send(result);
+        });
+
+        app.get('/addreview', async (req, res) => {
+
+            const filter = {};
+            const result = await reviewCollection.find(filter).toArray();
+            res.send(result);
+
         });
 
         app.get('/services', async (req, res) => {
